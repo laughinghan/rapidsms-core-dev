@@ -2,5 +2,102 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<em>Insert Dashboard Here</em>
+<div class="three-columns">
+  <div class="col-1">
+    {% for widget in col1 %}
+      <div class="module">
+        <h2>{{ widget.title }}</h2>
+        <div class="toolbar">
+          <a href="/dashboard/del/?pk={{ widget.pk }}" class="remove">Remove</a>
+        </div>
+        <p>[{{ widget.model_app_label }}] {{ widget.model_name }}: {{ widget.data }}
+      </div>
+    {% endfor %}
+    <div class="module">
+      <h2>Add Data</h2>
+      <form method="get" action="/dashboard/add/">
+        <input type="hidden" name="column" value=1 />
+        <input type="text" name="title" value="Title" />
+        <br>
+        <select name="model">
+          <option value="">Model:</option>
+          {% for model in models %}
+          <option value="{{ model.id }}">{{ model.name }}</option>
+          {% endfor %}
+        </select>
+        <br>
+        <select name="data">
+          <option value="">Data:</option>
+          <option>Count</option>
+        </select>
+        <br>
+        <input type="submit" value="Add to this column" />
+      </form>
+    </div>
+  </div>
+  <div class="col-2">
+    {% for widget in col2 %}
+      <div class="module">
+        <h2>{{ widget.title }}</h2>
+        <div class="toolbar">
+          <a href="/dashboard/del/?pk={{ widget.pk }}" class="remove">Remove</a>
+        </div>
+        <p>[{{ widget.model_app_label }}] {{ widget.model_name }}: {{ widget.data }}
+      </div>
+    {% endfor %}
+    <div class="module">
+      <h2>Add Data</h2>
+      <form method="get" action="/dashboard/add/">
+        <input type="hidden" name="column" value=2 />
+        <input type="text" name="title" value="Title" />
+        <br>
+        <select name="model">
+          <option value="">Model:</option>
+          {% for model in models %}
+          <option value="{{ model.id }}">{{ model.name }}</option>
+          {% endfor %}
+        </select>
+        <br>
+        <select name="data">
+          <option value="">Data:</option>
+          <option>Count</option>
+        </select>
+        <br>
+        <input type="submit" value="Add to this column" />
+      </form>
+    </div>
+  </div>
+  <div class="col-3">
+    {% for widget in col3 %}
+      <div class="module">
+        <h2>{{ widget.title }}</h2>
+        <div class="toolbar">
+          <a href="/dashboard/del/?pk={{ widget.pk }}" class="remove">Remove</a>
+        </div>
+        <p>[{{ widget.model_app_label }}] {{ widget.model_name }}: {{ widget.data }}
+      </div>
+    {% endfor %}
+    <div class="module">
+      <h2>Add Data</h2>
+      <form method="get" action="/dashboard/add/">
+        <input type="hidden" name="column" value=3 />
+        <input type="text" name="title" value="Title" />
+        <br>
+        <select name="model">
+          <option value="">Model:</option>
+          {% for model in models %}
+          <option value="{{ model.id }}">{{ model.name }}</option>
+          {% endfor %}
+        </select>
+        <br>
+        <select name="data">
+          <option value="">Data:</option>
+          <option>Count</option>
+        </select>
+        <br>
+        <input type="submit" value="Add to this column" />
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}

@@ -128,5 +128,6 @@ div.module div.toolbar {
          * silk set, to fit in with the rest of RapidSMS. this will
          * probably grow (and be abstracted) as apps do more things */
         div.module div.toolbar .add    { background-image: url("../icons/silk/add.png");       }
+        div.module div.toolbar .remove { background-image: url("../icons/silk/decline.png");    }
         div.module div.toolbar .help   { background-image: url("../icons/silk/help.png");      }
         div.module div.toolbar .search { background-image: url("../icons/silk/magnifier.png"); }

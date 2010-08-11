@@ -120,6 +120,12 @@ class Contact(ContactBase):
 
 
 class ConnectionBase(models.Model):
+    """
+    This model pairs a Backend object with an identity unique to it (eg.
+    a phone number, email address, or IRC nick), so RapidSMS developers
+    need not worry about which backend a messge originated from.
+    """
+
     backend  = models.ForeignKey(Backend)
     identity = models.CharField(max_length=100)
     contact  = models.ForeignKey(Contact, null=True, blank=True)
@@ -137,10 +143,58 @@ class ConnectionBase(models.Model):
 
 
 class Connection(ConnectionBase):
-    """
-    This model pairs a Backend object with an identity unique to it (eg.
-    a phone number, email address, or IRC nick), so RapidSMS developers
-    need not worry about which backend a messge originated from.
-    """
-
     __metaclass__ = ExtensibleModelBase
+
+
+class WidgetBase(models.Model):
+    """
+    A Dashboard widget that displays at-a-glance summary statistics info.
+    """
+    title = models.CharField(max_length=40)
+    column = models.PositiveSmallIntegerField()
+
+    model_name = models.CharField(max_length=100)
+    model_app_label = models.CharField(max_length=100)
+
+    @property
+    def model(self):
+        return models.get_model(self.model_app_label, self.model_name)
+
+    derivative_name = models.CharField(max_length=50)
+    derivative_app_label = models.CharField(max_length=100)
+
+    @property
+    def derivative(self):
+        return models.get_model(self.derivative_app_label, self.derivative_name)
+
+    def data(self):
+        return self.derivative.data(self)
+
+    def __unicode__(self):
+        return self.title or (str(self.model_name).split('.')[-1] + " Dashboard Widget")
+
+    def __repr__(self):
+        return '<%s: %s>' %\
+            (type(self).__name__, self)
+
+
+class Widget(WidgetBase):
+    __metaclass__ = ExtensibleModelBase
+
+
+class CountWidget(Widget):
+    """
+    A Dashboard widget that counts how many objects of this widget's model
+    are in the database.
+    """
+    def __init__(self, **kwargs):
+        kwargs['derivative_name'] = self.__class__.__name__
+        kwargs['derivative_app_label'] = self.__class__._meta.app_label
+        models.Model.__init__(self, **kwargs)
+    
+    @classmethod
+    def data(self):
+        return self.model.objects.count()
+    class Meta:
+        proxy = True
+
