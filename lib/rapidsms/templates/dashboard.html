@@ -2,6 +2,8 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
+{# Please note that the following CSS is fewer bytes than a typical HTTP header -- it adds to the download of this page less time than a round-trip HTTP request would take if it were moved to it's own file, even if the file was cached and the browser was merely checking if it had changed and the server replied it hadn't. #}
+{# This CSS isn't used anywhere else, don't move it out of here unless it's to a global shared cached file. #}
 <style type="text/css">
 .module {
   border: 1px solid #ddd;
@@ -179,6 +181,8 @@ input.gray {
     </div>
   </div>
 </div>
+{# Please note that the following JavaScript is fewer bytes than a typical HTTP header -- it adds to the download of this page less time than a round-trip HTTP request would take if it were moved to it's own file, even if the file was cached and the browser was merely checking if it had changed and the server replied it hadn't. #}
+{# This JavaScript isn't used anywhere else, don't move it out of here unless it's to a global shared cached file. #}
 <script type="text/javascript">
 jQuery('input:text').addClass('gray').focus(function(){
   if(this.className === 'gray')

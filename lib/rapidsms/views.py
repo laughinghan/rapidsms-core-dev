@@ -14,7 +14,10 @@ from .models import *
 
 @require_GET
 def dashboard(req):
-    context = {}
+    context = {} # the variables to be used in the template
+
+    # list of models that may be summarized
+    # with info that add_dashboard_widget needs to identify them
     context['models'] = [
         {
             'name': "%s (%s)" % (model.__name__, model._meta.app_label),
@@ -25,6 +28,8 @@ def dashboard(req):
            and not issubclass(model, WidgetEntryBase)
            and not model.__module__.startswith('django.contrib.')
     ]
+
+    # 3 lists of currently saved widgets to be displayed in the 3 columns
     for i in 1,2,3:
         this_col = context["col%s" % i] = []
         for widget in Widget.objects.filter(column=i):
@@ -36,15 +41,19 @@ def dashboard(req):
         context_instance=RequestContext(req))
 
 def add_dashboard_widget(req):
+    # if a nonempty string was submitted as the identifying info of a model,
+    # create a widget to summarize the model's info
     if req.GET['model']:
         model_name, model_app_label = req.GET['model'].split('+')
         widg = Widget.create_and_link(title=req.GET['title'], column=req.GET['column'],
             model_name=model_name, model_app_label=model_app_label)
         ModelCount.create_and_link(widget=widg, label='Number Of %ss' % widg.model_name)
 
+    # regardless, redirect to Dashboard
     return redirect('/')
 
 def add_dashboard_widget_entry(req):
+    # if all the info needed is there, create a new entry in the appropriate widget
     if req.GET['widget_id'] and req.GET['field'] and req.GET['stats']:
         widget = Widget.objects.get(pk=req.GET['widget_id'])
         FieldStats.create_and_link(widget=widget, label=req.GET['label'],

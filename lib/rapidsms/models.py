@@ -169,17 +169,30 @@ class PolymorphicModel(models.Model):
     base_id = models.AutoField(primary_key=True)
         # because id is overwritten in derived classes
 
+    # since Django doesn't allow generic ForeignKeys to arbitrary models
+    # (which makes sense since they're actually implemented as number fields
+    # containing the primary key of the predetermined table), these identify
+    # the derivative subclass this model object was created as
     derivative_name = models.CharField(max_length=50)
     derivative_app_label = models.CharField(max_length=100)
 
     @classmethod
     def create_and_link(cls, **kwargs):
-        "Create a Widget and link to the derivative class"
+        """
+        Create a Widget and link to given class.
+        Meant to be called on subclasses of PolymorphicModel.
+        See Usage in PolymorphicModel.__doc__.
+        """
         return cls.objects.create(derivative_name=cls.__name__,
             derivative_app_label=cls._meta.app_label, **kwargs)
 
     @property
     def derivative(self):
+        """
+        Use the self.derivative_* identifying info to get an instance of the
+        derivative subclass this model object was originally created as
+        representing the same object in the database as self.
+        """
         return models.get_model(self.derivative_app_label, self.derivative_name)\
             .objects.get(base_id=self.base_id)
 
@@ -194,14 +207,21 @@ class WidgetBase(PolymorphicModel):
     title = models.CharField(max_length=40)
     column = models.PositiveSmallIntegerField()
 
+    # these identify the model that this widget summarizes
+    # (See above about generic ForeignKeys to arbitrary models)
     model_name = models.CharField(max_length=100)
     model_app_label = models.CharField(max_length=100)
 
     @property
     def model(self):
+        "Use the self.model_* identifying info to get the model class"
         return models.get_model(self.model_app_label, self.model_name)
 
     def field_names(self):
+        """
+        Get the field names of the model (important mainly because _meta
+        starts with an underscore so off-limits to template)
+        """
         return [field.name for field in self.model._meta.fields if
             not isinstance(field, models.AutoField)]
 
@@ -254,7 +274,7 @@ class FieldStats(WidgetEntry):
     of the widget's model.
     """
     field = models.CharField(max_length=50)
-    statistic = models.CharField(max_length=10)
+    statistic = models.CharField(max_length=10) # i.e. which aggregation function
 
     def data(self):
         return self.model.objects.aggregate(
