@@ -231,7 +231,6 @@ class ModelCount(WidgetEntry):
     are in the database.
     """
     def data(self):
-        print self.widget.model
         return self.widget.model.objects.count()
     class Meta:
         proxy = True
