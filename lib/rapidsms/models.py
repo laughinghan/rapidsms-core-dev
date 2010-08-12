@@ -146,7 +146,48 @@ class Connection(ConnectionBase):
     __metaclass__ = ExtensibleModelBase
 
 
-class WidgetBase(models.Model):
+class PolymorphicModel(models.Model):
+    """
+    An abstract Model base class that provides descendant Model classes
+    with more polymorphism than normal Django Models.
+
+    Note: Overrides primary key to be base_id.
+
+    Usage:
+        class BaseClass(PolymorphicModel):
+            bar = models.CharField(max_length=100)
+            def foo(self):
+                return bar
+        class DerivedClass(models.Model):
+            def foo(self):
+                return "derived " + bar
+    later...
+        DerivedClass.create_and_link(bar='bar')
+        assertEquals('derived bar',
+            BaseClass.objects.get(bar='bar').derivative.foo())
+    """
+    base_id = models.AutoField(primary_key=True)
+        # because id is overwritten in derived classes
+
+    derivative_name = models.CharField(max_length=50)
+    derivative_app_label = models.CharField(max_length=100)
+
+    @classmethod
+    def create_and_link(cls, **kwargs):
+        "Create a Widget and link to the derivative class"
+        return cls.objects.create(derivative_name=cls.__name__,
+            derivative_app_label=cls._meta.app_label, **kwargs)
+
+    @property
+    def derivative(self):
+        return models.get_model(self.derivative_app_label, self.derivative_name)\
+            .objects.get(base_id=self.base_id)
+
+    class Meta:
+        abstract = True
+
+
+class WidgetBase(PolymorphicModel):
     """
     A Dashboard widget that displays at-a-glance summary statistics info.
     """
@@ -159,20 +200,6 @@ class WidgetBase(models.Model):
     @property
     def model(self):
         return models.get_model(self.model_app_label, self.model_name)
-
-    widget_id = models.AutoField(primary_key=True)
-        # because 'id' is overridden in subclasses
-
-    derivative_name = models.CharField(max_length=50)
-    derivative_app_label = models.CharField(max_length=100)
-
-    @property
-    def derivative(self):
-        return models.get_model(self.derivative_app_label, self.derivative_name)\
-            .objects.get(widget_id=self.widget_id)
-
-    def data(self):
-        return self.derivative.data(self)
 
     def __unicode__(self):
         return self.title or (str(self.model_name).split('.')[-1] + " Dashboard Widget")

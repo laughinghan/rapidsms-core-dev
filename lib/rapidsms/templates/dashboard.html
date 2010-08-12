@@ -8,9 +8,8 @@
       <div class="module">
         <h2>{{ widget.title }}</h2>
         <div class="toolbar">
-          <a href="/dashboard/del/?pk={{ widget.pk }}" class="remove">Remove</a>
+          <a href="/dashboard/del/?base_id={{ widget.base_id }}" class="remove">Remove</a>
         </div>
-        <p>[{{ widget.model_app_label }}] {{ widget.model_name }}: {{ widget.data }}
       </div>
     {% endfor %}
     <div class="module">
@@ -26,10 +25,6 @@
           {% endfor %}
         </select>
         <br>
-        <select name="data">
-          <option value="">Data:</option>
-          <option>Count</option>
-        </select>
         <br>
         <input type="submit" value="Add to this column" />
       </form>
@@ -40,9 +35,8 @@
       <div class="module">
         <h2>{{ widget.title }}</h2>
         <div class="toolbar">
-          <a href="/dashboard/del/?pk={{ widget.pk }}" class="remove">Remove</a>
+          <a href="/dashboard/del/?base_id={{ widget.base_id }}" class="remove">Remove</a>
         </div>
-        <p>[{{ widget.model_app_label }}] {{ widget.model_name }}: {{ widget.data }}
       </div>
     {% endfor %}
     <div class="module">
@@ -58,10 +52,6 @@
           {% endfor %}
         </select>
         <br>
-        <select name="data">
-          <option value="">Data:</option>
-          <option>Count</option>
-        </select>
         <br>
         <input type="submit" value="Add to this column" />
       </form>
@@ -72,9 +62,8 @@
       <div class="module">
         <h2>{{ widget.title }}</h2>
         <div class="toolbar">
-          <a href="/dashboard/del/?pk={{ widget.pk }}" class="remove">Remove</a>
+          <a href="/dashboard/del/?base_id={{ widget.base_id }}" class="remove">Remove</a>
         </div>
-        <p>[{{ widget.model_app_label }}] {{ widget.model_name }}: {{ widget.data }}
       </div>
     {% endfor %}
     <div class="module">
@@ -90,10 +79,6 @@
           {% endfor %}
         </select>
         <br>
-        <select name="data">
-          <option value="">Data:</option>
-          <option>Count</option>
-        </select>
         <br>
         <input type="submit" value="Add to this column" />
       </form>

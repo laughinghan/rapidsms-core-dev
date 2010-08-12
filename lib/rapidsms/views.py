@@ -21,8 +21,7 @@ def dashboard(req):
             'id': "%s+%s" % (model.__name__, model._meta.app_label)
         }
         for model in models.get_models()
-        if not model.__name__ == 'WidgetBase'
-           and not model.__name__.endswith('Widget')
+        if not issubclass(model, WidgetBase)
            and not model.__module__.startswith('django.contrib.')
     ]
     for i in 1,2,3:
@@ -38,15 +37,14 @@ def dashboard(req):
 def add_dashboard_widget(req):
     if req.GET['model']:
         model_name, model_app_label = req.GET['model'].split('+')
-        if req.GET['data'] == 'Count':
-            CountWidget.create(title=req.GET['title'], column=req.GET['column'],
-                model_name=model_name, model_app_label=model_app_label)
+        Widget.create_and_link(title=req.GET['title'], column=req.GET['column'],
+            model_name=model_name, model_app_label=model_app_label)
 
     return redirect('/')
 
 def delete_dashboard_widget(req):
-    if req.GET.get('pk', None):
-        Widget.objects.get(pk=req.GET['pk']).delete()
+    if req.GET.get('base_id', None):
+        Widget.objects.get(pk=req.GET['base_id']).delete()
     return redirect('/')
 
 def login(req, template_name="rapidsms/login.html"):
