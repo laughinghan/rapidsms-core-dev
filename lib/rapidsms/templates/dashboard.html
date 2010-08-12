@@ -180,22 +180,22 @@ input.gray {
   </div>
 </div>
 <script type="text/javascript">
-jQuery('input:text[name=title]').addClass('gray').focus(function(){
-    if(this.className === 'gray')
-        this.value = this.className = '';
+jQuery('input:text').addClass('gray').focus(function(){
+  if(this.className === 'gray')
+    this.value = this.className = '';
 }).blur(function(){
-    if(this.value === '')
-    {
-        this.className = 'gray';
-        this.value = 'Title';
-    }
+  if(this.value === '')
+  {
+    this.className = 'gray';
+    this.value = 'Title';
+  }
 });
 jQuery('select[name=model]').change(function(){
-    var title = $(this).nextAll(':text');
-    if(title.hasClass('gray'))
-        title.val(this.value ?
-            this.value.split('+')[0] + ' (' + this.value.split('+')[1] + ')' :
-            'Title');
+  var title = $(this).nextAll(':text');
+  if(title.hasClass('gray'))
+    title.val(this.value ?
+      this.value.split('+')[0] + ' (' + this.value.split('+')[1] + ')' :
+      'Title');
 });
 </script>
 {% endblock %}
