@@ -50,6 +50,11 @@ def add_dashboard_widget(req):
         ModelCount.create_and_link(widget=widg, label='Number Of %ss' % widg.model_name)
 
     # regardless, redirect to Dashboard
+    """ ** TODO: **
+    present some kind of error message if there's an error,
+    present a "Widget Was Created!" message and highlight the newly
+    created widget otherwise
+    """
     return redirect('/')
 
 def add_dashboard_widget_entry(req):
@@ -65,6 +70,11 @@ def delete_dashboard_widget(req):
     if req.GET.get('base_id', None):
         Widget.objects.get(pk=req.GET['base_id']).delete()
     return redirect('/')
+
+""" ** TODO: **
+def delete_dashboard_widget_entry(req):
+    ...
+"""
 
 def login(req, template_name="rapidsms/login.html"):
     return django_login(req, **{"template_name" : template_name})

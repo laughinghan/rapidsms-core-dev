@@ -280,3 +280,9 @@ class FieldStats(WidgetEntry):
         return self.model.objects.aggregate(
             data=models.__dict__[self.statistic](self.field))['data']
 
+
+""" ** TODO: **
+FieldStats are only for numerical fields, a WidgetEntry of stats about
+the lengths of CharFields and TextFields could be useful
+"""
+
