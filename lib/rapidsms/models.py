@@ -160,12 +160,16 @@ class WidgetBase(models.Model):
     def model(self):
         return models.get_model(self.model_app_label, self.model_name)
 
+    widget_id = models.AutoField(primary_key=True)
+        # because 'id' is overridden in subclasses
+
     derivative_name = models.CharField(max_length=50)
     derivative_app_label = models.CharField(max_length=100)
 
     @property
     def derivative(self):
-        return models.get_model(self.derivative_app_label, self.derivative_name)
+        return models.get_model(self.derivative_app_label, self.derivative_name)\
+            .objects.get(widget_id=self.widget_id)
 
     def data(self):
         return self.derivative.data(self)
@@ -179,6 +183,11 @@ class WidgetBase(models.Model):
 
 
 class Widget(WidgetBase):
+    @classmethod
+    def create(cls, **kwargs):
+        return cls.objects.create(derivative_name=cls.__name__,
+            derivative_app_label=cls._meta.app_label, **kwargs)
+
     __metaclass__ = ExtensibleModelBase
 
 
@@ -187,12 +196,6 @@ class CountWidget(Widget):
     A Dashboard widget that counts how many objects of this widget's model
     are in the database.
     """
-    def __init__(self, **kwargs):
-        kwargs['derivative_name'] = self.__class__.__name__
-        kwargs['derivative_app_label'] = self.__class__._meta.app_label
-        models.Model.__init__(self, **kwargs)
-    
-    @classmethod
     def data(self):
         return self.model.objects.count()
     class Meta:

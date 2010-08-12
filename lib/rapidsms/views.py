@@ -10,7 +10,7 @@ from django.contrib.auth.views import login as django_login
 from django.contrib.auth.views import logout as django_logout
 
 from django.db import models
-from .widgets import *
+from .models import *
 
 @require_GET
 def dashboard(req):
@@ -28,7 +28,7 @@ def dashboard(req):
     for i in 1,2,3:
         this_col = context["col%s" % i] = []
         for widget in Widget.objects.filter(column=i):
-            this_col.append(widget)
+            this_col.append(widget.derivative)
 
     return render_to_response(
         'dashboard.html',
@@ -39,7 +39,7 @@ def add_dashboard_widget(req):
     if req.GET['model']:
         model_name, model_app_label = req.GET['model'].split('+')
         if req.GET['data'] == 'Count':
-            CountWidget.objects.create(title=req.GET['title'], column=req.GET['column'],
+            CountWidget.create(title=req.GET['title'], column=req.GET['column'],
                 model_name=model_name, model_app_label=model_app_label)
 
     return redirect('/')
