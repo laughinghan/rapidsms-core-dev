@@ -22,6 +22,7 @@ def dashboard(req):
         }
         for model in models.get_models()
         if not issubclass(model, WidgetBase)
+           and not issubclass(model, WidgetEntryBase)
            and not model.__module__.startswith('django.contrib.')
     ]
     for i in 1,2,3:
@@ -37,8 +38,9 @@ def dashboard(req):
 def add_dashboard_widget(req):
     if req.GET['model']:
         model_name, model_app_label = req.GET['model'].split('+')
-        Widget.create_and_link(title=req.GET['title'], column=req.GET['column'],
+        widg = Widget.create_and_link(title=req.GET['title'], column=req.GET['column'],
             model_name=model_name, model_app_label=model_app_label)
+        ModelCount.create_and_link(widget=widg, label='Number Of %ss' % widg.model_name)
 
     return redirect('/')
 

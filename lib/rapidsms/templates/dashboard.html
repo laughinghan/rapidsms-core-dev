@@ -10,11 +10,14 @@
         <div class="toolbar">
           <a href="/dashboard/del/?base_id={{ widget.base_id }}" class="remove">Remove</a>
         </div>
+        {% for entry in widget.data.all %}
+        <p>{{ entry.label }}: {{ entry.derivative.data}}
+        {% endfor %}
       </div>
     {% endfor %}
     <div class="module">
-      <h2>Add Data</h2>
       <form method="get" action="/dashboard/add/">
+      <h2>New Widget</h2>
         <input type="hidden" name="column" value=1 />
         <input type="text" name="title" value="Title" />
         <br>
@@ -37,11 +40,14 @@
         <div class="toolbar">
           <a href="/dashboard/del/?base_id={{ widget.base_id }}" class="remove">Remove</a>
         </div>
+        {% for entry in widget.data.all %}
+        <p>{{ entry.label }}: {{ entry.derivative.data}}
+        {% endfor %}
       </div>
     {% endfor %}
     <div class="module">
-      <h2>Add Data</h2>
       <form method="get" action="/dashboard/add/">
+      <h2>New Widget</h2>
         <input type="hidden" name="column" value=2 />
         <input type="text" name="title" value="Title" />
         <br>
@@ -64,11 +70,14 @@
         <div class="toolbar">
           <a href="/dashboard/del/?base_id={{ widget.base_id }}" class="remove">Remove</a>
         </div>
+        {% for entry in widget.data.all %}
+        <p>{{ entry.label }}: {{ entry.derivative.data }}
+        {% endfor %}
       </div>
     {% endfor %}
     <div class="module">
-      <h2>Add Data</h2>
       <form method="get" action="/dashboard/add/">
+      <h2>New Widget</h2>
         <input type="hidden" name="column" value=3 />
         <input type="text" name="title" value="Title" />
         <br>

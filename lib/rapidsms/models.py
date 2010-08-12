@@ -210,21 +210,29 @@ class WidgetBase(PolymorphicModel):
 
 
 class Widget(WidgetBase):
-    @classmethod
-    def create(cls, **kwargs):
-        return cls.objects.create(derivative_name=cls.__name__,
-            derivative_app_label=cls._meta.app_label, **kwargs)
-
     __metaclass__ = ExtensibleModelBase
 
 
-class CountWidget(Widget):
+class WidgetEntryBase(PolymorphicModel):
+    """
+    A line of data in a Dashboard Widget.
+    """
+    widget = models.ForeignKey(Widget, related_name='data')
+    label = models.CharField(max_length=50)
+
+
+class WidgetEntry(WidgetEntryBase):
+    __metaclass__ = ExtensibleModelBase
+
+
+class ModelCount(WidgetEntry):
     """
     A Dashboard widget that counts how many objects of this widget's model
     are in the database.
     """
     def data(self):
-        return self.model.objects.count()
+        print self.widget.model
+        return self.widget.model.objects.count()
     class Meta:
         proxy = True
 
