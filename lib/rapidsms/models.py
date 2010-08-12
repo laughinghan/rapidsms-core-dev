@@ -201,6 +201,10 @@ class WidgetBase(PolymorphicModel):
     def model(self):
         return models.get_model(self.model_app_label, self.model_name)
 
+    def field_names(self):
+        return [field.name for field in self.model._meta.fields if
+            not isinstance(field, models.AutoField)]
+
     def __unicode__(self):
         return self.title or (str(self.model_name).split('.')[-1] + " Dashboard Widget")
 
@@ -227,11 +231,23 @@ class WidgetEntry(WidgetEntryBase):
 
 class ModelCount(WidgetEntry):
     """
-    A Dashboard widget that counts how many objects of this widget's model
-    are in the database.
+    Counts how many objects of the widget's model are in the database.
     """
     def data(self):
         return self.widget.model.objects.count()
     class Meta:
         proxy = True
+
+
+class FieldStats(WidgetEntry):
+    """
+    Applies one of Django's statistical aggregation functions to a field
+    of the widget's model.
+    """
+    field = models.CharField(max_length=50)
+    statistic = models.CharField(max_length=10)
+
+    def data(self):
+        return self.widget.model.objects.aggregate(
+            data=models.__dict__[self.statistic](self.field))['data']
 

@@ -45,6 +45,11 @@ def add_dashboard_widget(req):
     return redirect('/')
 
 def add_dashboard_widget_entry(req):
+    if req.GET['widget_id'] and req.GET['field'] and req.GET['stats']:
+        widget = Widget.objects.get(pk=req.GET['widget_id'])
+        FieldStats.create_and_link(widget=widget, label=req.GET['label'],
+            field=req.GET['field'], statistic=req.GET['stats'])
+
     return redirect('/')
 
 def delete_dashboard_widget(req):

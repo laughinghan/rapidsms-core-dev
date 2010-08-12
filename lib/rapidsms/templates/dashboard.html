@@ -32,8 +32,20 @@ input.gray {
         <form method="get" action="/dashboard/add/widget_entry/">
           <input type="hidden" name="widget_id" value={{ widget.base_id }} />
           <h3>Add Data:</h3>
-          <select name="data">
-            <option value="">Data:</option>
+          <select name="field">
+            <option value="">Field:</option>
+            {% for field in widget.field_names %}
+            <option>{{ field }}</option>
+            {% endfor %}
+          </select>
+          <select name="stats">
+            <option value="">Stats:</option>
+            <option>Sum</option>
+            <option value="Avg">Average</option>
+            <option value="Max">Maximum</option>
+            <option value="Min">Minimum</option>
+            <option value="StdDev">Standard Deviation</option>
+            <option>Variance</option>
           </select>
           <br>
           <input type="text" name="label" value="Label" />
@@ -72,8 +84,21 @@ input.gray {
         <form method="get" action="/dashboard/add/widget_entry/">
           <input type="hidden" name="widget_id" value={{ widget.base_id }} />
           <h3>Add Data:</h3>
-          <select name="data">
-            <option value="">Data:</option>
+          <select name="field">
+            <option value="">Field:</option>
+            {% for field in widget.field_names %}
+            <option>{{ field }}</option>
+            {% endfor %}
+          </select>
+          <select name="stats">
+            <option value="">Stats:</option>
+            <option>Sum</option>
+            <option value="Avg">Average</option>
+            <option value="Max">Maximum</option>
+            <option value="Min">Minimum</option>
+            <option value="StdDev">Standard Deviation</option>
+            <option>Variance</option>
+            <optino value="Count">Number Of</option>
           </select>
           <br>
           <input type="text" name="label" value="Label" />
@@ -112,8 +137,20 @@ input.gray {
         <form method="get" action="/dashboard/add/widget_entry/">
           <input type="hidden" name="widget_id" value={{ widget.base_id }} />
           <h3>Add Data:</h3>
-          <select name="data">
-            <option value="">Data:</option>
+          <select name="field">
+            <option value="">Field:</option>
+            {% for field in widget.field_names %}
+            <option>{{ field }}</option>
+            {% endfor %}
+          </select>
+          <select name="stats">
+            <option value="">Stats:</option>
+            <option>Sum</option>
+            <option value="Avg">Average</option>
+            <option value="Max">Maximum</option>
+            <option value="Min">Minimum</option>
+            <option value="StdDev">Standard Deviation</option>
+            <option>Variance</option>
           </select>
           <br>
           <input type="text" name="label" value="Label" />
