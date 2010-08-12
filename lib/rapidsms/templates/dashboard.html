@@ -2,6 +2,22 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
+<style type="text/css">
+.module {
+  border: 1px solid #ddd;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  background-color: #f8f8f8;
+}
+form {
+  background-color: white;
+  border: none;
+  padding: 0;
+}
+input.gray {
+  color: gray;
+}
+</style>
 <div class="three-columns">
   <div class="col-1">
     {% for widget in col1 %}
@@ -19,8 +35,6 @@
       <form method="get" action="/dashboard/add/">
       <h2>New Widget</h2>
         <input type="hidden" name="column" value=1 />
-        <input type="text" name="title" value="Title" />
-        <br>
         <select name="model">
           <option value="">Model:</option>
           {% for model in models %}
@@ -28,6 +42,7 @@
           {% endfor %}
         </select>
         <br>
+        <input type="text" name="title" value="Title" />
         <br>
         <input type="submit" value="Add to this column" />
       </form>
@@ -49,8 +64,6 @@
       <form method="get" action="/dashboard/add/">
       <h2>New Widget</h2>
         <input type="hidden" name="column" value=2 />
-        <input type="text" name="title" value="Title" />
-        <br>
         <select name="model">
           <option value="">Model:</option>
           {% for model in models %}
@@ -58,6 +71,7 @@
           {% endfor %}
         </select>
         <br>
+        <input type="text" name="title" value="Title" />
         <br>
         <input type="submit" value="Add to this column" />
       </form>
@@ -79,8 +93,6 @@
       <form method="get" action="/dashboard/add/">
       <h2>New Widget</h2>
         <input type="hidden" name="column" value=3 />
-        <input type="text" name="title" value="Title" />
-        <br>
         <select name="model">
           <option value="">Model:</option>
           {% for model in models %}
@@ -88,10 +100,30 @@
           {% endfor %}
         </select>
         <br>
+        <input type="text" name="title" value="Title" />
         <br>
         <input type="submit" value="Add to this column" />
       </form>
     </div>
   </div>
 </div>
+<script type="text/javascript">
+jQuery('input:text[name=title]').addClass('gray').focus(function(){
+    if(this.className === 'gray')
+        this.value = this.className = '';
+}).blur(function(){
+    if(this.value === '')
+    {
+        this.className = 'gray';
+        this.value = 'Title';
+    }
+});
+jQuery('select[name=model]').change(function(){
+    var title = $(this).nextAll(':text');
+    if(title.hasClass('gray'))
+        title.val(this.value ?
+            this.value.split('+')[0] + ' (' + this.value.split('+')[1] + ')' :
+            'Title');
+});
+</script>
 {% endblock %}
