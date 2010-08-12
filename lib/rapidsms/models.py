@@ -224,6 +224,15 @@ class WidgetEntryBase(PolymorphicModel):
     widget = models.ForeignKey(Widget, related_name='data')
     label = models.CharField(max_length=50)
 
+    @property
+    def model(self):
+        "My model is my widget's model"
+        return self.widget.model
+
+    def data(self):
+        "Some summary data about the widget's model."
+        return '[WidgetEntryBase.data not overridden]'
+
 
 class WidgetEntry(WidgetEntryBase):
     __metaclass__ = ExtensibleModelBase
@@ -234,7 +243,7 @@ class ModelCount(WidgetEntry):
     Counts how many objects of the widget's model are in the database.
     """
     def data(self):
-        return self.widget.model.objects.count()
+        return self.model.objects.count()
     class Meta:
         proxy = True
 
@@ -248,6 +257,6 @@ class FieldStats(WidgetEntry):
     statistic = models.CharField(max_length=10)
 
     def data(self):
-        return self.widget.model.objects.aggregate(
+        return self.model.objects.aggregate(
             data=models.__dict__[self.statistic](self.field))['data']
 
