@@ -29,11 +29,22 @@ input.gray {
         {% for entry in widget.data.all %}
         <p>{{ entry.label }}: {{ entry.derivative.data}}
         {% endfor %}
+        <form method="get" action="/dashboard/add/widget_entry/">
+          <input type="hidden" name="widget_id" value={{ widget.base_id }} />
+          <h3>Add Data:</h3>
+          <select name="data">
+            <option value="">Data:</option>
+          </select>
+          <br>
+          <input type="text" name="label" value="Label" />
+          <br>
+          <input type="submit" value="Add to this widget" />
+        </form>
       </div>
     {% endfor %}
     <div class="module">
-      <form method="get" action="/dashboard/add/">
       <h2>New Widget</h2>
+      <form method="get" action="/dashboard/add/widget/">
         <input type="hidden" name="column" value=1 />
         <select name="model">
           <option value="">Model:</option>
@@ -58,11 +69,22 @@ input.gray {
         {% for entry in widget.data.all %}
         <p>{{ entry.label }}: {{ entry.derivative.data}}
         {% endfor %}
+        <form method="get" action="/dashboard/add/widget_entry/">
+          <input type="hidden" name="widget_id" value={{ widget.base_id }} />
+          <h3>Add Data:</h3>
+          <select name="data">
+            <option value="">Data:</option>
+          </select>
+          <br>
+          <input type="text" name="label" value="Label" />
+          <br>
+          <input type="submit" value="Add to this widget" />
+        </form>
       </div>
     {% endfor %}
     <div class="module">
-      <form method="get" action="/dashboard/add/">
       <h2>New Widget</h2>
+      <form method="get" action="/dashboard/add/widget/">
         <input type="hidden" name="column" value=2 />
         <select name="model">
           <option value="">Model:</option>
@@ -87,11 +109,22 @@ input.gray {
         {% for entry in widget.data.all %}
         <p>{{ entry.label }}: {{ entry.derivative.data }}
         {% endfor %}
+        <form method="get" action="/dashboard/add/widget_entry/">
+          <input type="hidden" name="widget_id" value={{ widget.base_id }} />
+          <h3>Add Data:</h3>
+          <select name="data">
+            <option value="">Data:</option>
+          </select>
+          <br>
+          <input type="text" name="label" value="Label" />
+          <br>
+          <input type="submit" value="Add to this widget" />
+        </form>
       </div>
     {% endfor %}
     <div class="module">
-      <form method="get" action="/dashboard/add/">
       <h2>New Widget</h2>
+      <form method="get" action="/dashboard/add/widget/">
         <input type="hidden" name="column" value=3 />
         <select name="model">
           <option value="">Model:</option>

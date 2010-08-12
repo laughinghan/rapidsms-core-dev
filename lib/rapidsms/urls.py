@@ -6,7 +6,8 @@ from . import views
 
 urlpatterns = patterns('',
     url(r'^$', views.dashboard),
-    url(r'^dashboard/add/$', views.add_dashboard_widget),
+    url(r'^dashboard/add/widget/$', views.add_dashboard_widget),
+    url(r'^dashboard/add/widget_entry/$', views.add_dashboard_widget_entry),
     url(r'^dashboard/del/$', views.delete_dashboard_widget),
     url(r'^accounts/login/$', views.login),
     url(r'^accounts/logout/$', views.logout),

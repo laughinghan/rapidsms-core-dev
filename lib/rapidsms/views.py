@@ -44,6 +44,9 @@ def add_dashboard_widget(req):
 
     return redirect('/')
 
+def add_dashboard_widget_entry(req):
+    return redirect('/')
+
 def delete_dashboard_widget(req):
     if req.GET.get('base_id', None):
         Widget.objects.get(pk=req.GET['base_id']).delete()
