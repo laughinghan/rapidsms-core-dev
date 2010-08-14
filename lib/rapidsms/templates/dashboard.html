@@ -60,7 +60,7 @@ input.gray {
         {% for entry in widget.data.all %}{# ** TODO: ** some way to remove widget entries #}
         <p>{{ entry.label }}: {{ entry.derivative.data}}
         {% endfor %}
-        <form method="get" action="/dashboard/add/widget_entry/">
+        <form method="get" action="/dashboard/add/widget_entry/">{# **TODO:** collapsible #}
           <input type="hidden" name="widget_id" value={{ widget.base_id }} />
           <h3>Add Data:</h3>
           <select name="field">
@@ -113,7 +113,7 @@ input.gray {
         {% for entry in widget.data.all %}{# ** TODO: ** some way to remove widget entries #}
         <p>{{ entry.label }}: {{ entry.derivative.data}}
         {% endfor %}
-        <form method="get" action="/dashboard/add/widget_entry/">
+        <form method="get" action="/dashboard/add/widget_entry/">{# **TODO:** collapsible #}
           <input type="hidden" name="widget_id" value={{ widget.base_id }} />
           <h3>Add Data:</h3>
           <select name="field">
@@ -166,7 +166,7 @@ input.gray {
         {% for entry in widget.data.all %}{# ** TODO: ** some way to remove widget entries #}
         <p>{{ entry.label }}: {{ entry.derivative.data }}
         {% endfor %}
-        <form method="get" action="/dashboard/add/widget_entry/">
+        <form method="get" action="/dashboard/add/widget_entry/">{# **TODO:** collapsible #}
           <input type="hidden" name="widget_id" value={{ widget.base_id }} />
           <h3>Add Data:</h3>
           <select name="field">
